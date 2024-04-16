@@ -37,7 +37,7 @@ class Client:
         # format time in Month/Day/Year Hour-Minute-Second
         return time.strftime("%m/%d/%Y %H-%M-%S")
         
-    #TODO: Implement this function
+    #Implement this function
     def send_request_get_reply(self, request):
         #encode the request
         encoded_req = request.encode()
@@ -57,7 +57,7 @@ class Client:
         request = f"LOGIN:{username}:{password}"
         reply = self.send_request_get_reply(request)
         
-        #TODO: Check if login was successful by checking the reply 
+        #Check if login was successful by checking the reply 
         if reply == "LOGIN:SUCCESS":
             #set logged_in to True
             self.logged_in = True
@@ -83,7 +83,7 @@ class Client:
         else:
             print("Error fetching messages")
 
-    #TODO: Implement message validation according to spec.
+    #Implement message validation according to spec.
     def validate_message(self, message):
         # checks that no special characters, and len is less than 1024
         bad_chars = "~!@#$%^&*()_+{}|:\"<>?`-=[]\\;',./"
