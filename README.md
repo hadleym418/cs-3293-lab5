@@ -12,7 +12,7 @@ _Goal of this project_: Building a multithreaded chat client that can connect to
 
 Create a Python venv for this project using `mkdir venv && python3 -m venv venv/`.  
 If you don't have python3 -m venv --upgradeled, you can install it using  `python3 -m pip install venv` and then run the above command.  
-You should then activate the venv using `source venv/bin/activate`.  
+You should then activate the venv using `source venv/bin/activate`. 
 Then, install the required packages using `pip install -r requirements.txt`.  
 
 You are now ready to start coding. All the best!

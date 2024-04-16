@@ -39,50 +39,78 @@ class Client:
         
     #TODO: Implement this function
     def send_request_get_reply(self, request):
-        #TODO: encode the request
-        #TODO: send the request on the connection
-        #TODO recieve the reply with RECV_BUFFER_SIZE
-        #TODO: decode the reply
-        #TODO: return the decoded reply
-        pass
+        #encode the request
+        encoded_req = request.encode()
+        #send the request on the connection
+        self.conn.send(encoded_req)
+        #recieve the reply with RECV_BUFFER_SIZE
+        reply = self.conn.recv(RECV_BUFFER_SIZE)
+        #decode the reply
+        decoded_reply = reply.decode()
+        #return the decoded reply
+        return decoded_reply
         
         
     def send_login(self, username, password):
         self.conn.connect((self.server_addr, self.port))
-        request = #TODO: construct login request string 
+        #construct login request string 
+        request = f"LOGIN:{username}:{password}"
         reply = self.send_request_get_reply(request)
-    
-        if reply == #TODO: Check if login was successful by checking the reply 
-            # TODO: set logged_in to True
-            # TODO: set username of client
+        
+        #TODO: Check if login was successful by checking the reply 
+        if reply == "LOGIN:SUCCESS":
+            #set logged_in to True
+            self.logged_in = True
+            #set username of client
+            self.username = username
             print("Login successful")
         else:
             print("Login failed. Try again..")
 
             
     def fetch_messages(self):
-        request = #TODO: Construct fetch request message
+        #Construct fetch request message
+        request = f"FETCH:{self.username}"
         reply = self.send_request_get_reply(request)
         parts = reply.split(':')
-        if parts[0] == #TODO: Check if reply was for "FETCH"
-            #TODO: Print all the messages recieved
+        #Check if reply was for "FETCH"
+        if parts[0] == "FETCH":
+            #Print all the messages recieved
+            messages = parts[1].split(';')
+            print("Messages: ")
+            for message in messages:
+                print(message)
         else:
             print("Error fetching messages")
 
     #TODO: Implement message validation according to spec.
     def validate_message(self, message):
         # checks that no special characters, and len is less than 1024
-        return False
+        bad_chars = "~!@#$%^&*()_+{}|:\"<>?`-=[]\\;',./"
+        valid_chars = True
+        for c in message:
+            if c not in bad_chars:
+                valid_chars = True
+            else:
+                valid_chars = False
+                break
+        if (len(message) < 1024) and (valid_chars):
+            return True
+        else:
+            return False
 
     def send_message(self):
         message = input("Enter message: ")
         valid = self.validate_message(message)
         if valid:
-            request = #TODO: Construct request for message, hint: use self.get_time() to get current time
+            #Construct request for message, hint: use self.get_time() to get current time
+            curr_time = self.get_time()
+            request = f"MESSAGE:{self.username}:{curr_time}:{message}"
             reply = self.send_request_get_reply(request)
     
             # STUDENT
-            if reply == #TODO: Check the correct reply code for success
+            #Check the correct reply code for success
+            if reply == "MESSAGE:SUCCESS":
                 print("Message sent successfully") 
                 print("==========================")
             else:
@@ -109,3 +137,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
