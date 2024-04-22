@@ -76,7 +76,7 @@ class Client:
         #Check if reply was for "FETCH"
         if parts[0] == "FETCH":
             #Print all the messages recieved
-            messages = parts[1].split(';')
+            messages = parts[1:]
             print("Messages: ")
             for message in messages:
                 print(message)
@@ -105,7 +105,7 @@ class Client:
         if valid:
             #Construct request for message, hint: use self.get_time() to get current time
             curr_time = self.get_time()
-            request = f"MESSAGE:{self.username}:{curr_time}:{message}"
+            request = f"MESSAGE:{self.username}:{message}:{curr_time}"
             reply = self.send_request_get_reply(request)
     
             # STUDENT
